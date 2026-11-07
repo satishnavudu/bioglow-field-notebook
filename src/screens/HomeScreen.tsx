@@ -1,9 +1,54 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { NOTEBOOKS, TEMPLATES } from '../templates';
 import type { FieldEntry, NotebookKey, TemplateDef } from '../types';
 import { COLORS, GlossyCard, SectionTitle } from '../components/ui';
+
+/** One full glossy tile in the 2-column grid: big icon tile on top, title, tagline. */
+function Tile({
+  icon,
+  title,
+  tagline,
+  gradient,
+  glove,
+  minHeight,
+  badge,
+  onPress,
+}: {
+  icon: string;
+  title: string;
+  tagline: string;
+  gradient: [string, string];
+  glove: boolean;
+  minHeight: number;
+  badge?: string;
+  onPress: () => void;
+}) {
+  return (
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => [styles.tileOuter, pressed && styles.pressed]}
+    >
+      <LinearGradient
+        colors={gradient}
+        style={[styles.tile, { minHeight: glove ? minHeight + 24 : minHeight }]}
+      >
+        <View style={styles.highlight} />
+        {badge !== undefined && (
+          <View style={styles.countBadge}>
+            <Text style={styles.countText}>{badge}</Text>
+          </View>
+        )}
+        <View style={[styles.iconBox, glove && styles.iconBoxBig]}>
+          <Text style={[styles.iconText, glove && styles.iconTextBig]}>{icon}</Text>
+        </View>
+        <Text style={[styles.tileTitle, glove && styles.bigText]}>{title}</Text>
+        <Text style={styles.tileSub}>{tagline}</Text>
+      </LinearGradient>
+    </Pressable>
+  );
+}
 
 export function HomeScreen({
   entries,
@@ -44,31 +89,37 @@ export function HomeScreen({
       </GlossyCard>
 
       <SectionTitle>Start a finding — pick a template</SectionTitle>
-      {TEMPLATES.map((t) => (
-        <GlossyCard key={t.key} gradient={t.gradient} style={styles.cardGap} onPress={() => onPickTemplate(t)}>
-          <Text style={[styles.cardTitle, glove && styles.bigText]}>
-            {t.icon}  {t.title}
-          </Text>
-          <Text style={styles.cardSub}>{t.tagline}</Text>
-        </GlossyCard>
-      ))}
+      <View style={styles.grid}>
+        {TEMPLATES.map((t) => (
+          <Tile
+            key={t.key}
+            icon={t.icon}
+            title={t.title}
+            tagline={t.tagline}
+            gradient={t.gradient}
+            glove={glove}
+            minHeight={158}
+            onPress={() => onPickTemplate(t)}
+          />
+        ))}
+      </View>
 
       <SectionTitle>Your notebooks</SectionTitle>
-      {NOTEBOOKS.map((n) => (
-        <GlossyCard key={n.key} gradient={n.gradient} style={styles.cardGap} onPress={() => onPickNotebook(n.key)}>
-          <View style={styles.rowBetween}>
-            <View>
-              <Text style={[styles.cardTitle, glove && styles.bigText]}>
-                {n.icon}  {n.title}
-              </Text>
-              <Text style={styles.cardSub}>{n.tagline}</Text>
-            </View>
-            <View style={styles.countBadge}>
-              <Text style={styles.countText}>{countFor(n.key)}</Text>
-            </View>
-          </View>
-        </GlossyCard>
-      ))}
+      <View style={styles.grid}>
+        {NOTEBOOKS.map((n) => (
+          <Tile
+            key={n.key}
+            icon={n.icon}
+            title={n.title}
+            tagline={n.tagline}
+            gradient={n.gradient}
+            glove={glove}
+            minHeight={140}
+            badge={String(countFor(n.key))}
+            onPress={() => onPickNotebook(n.key)}
+          />
+        ))}
+      </View>
       <View style={{ height: 24 }} />
     </ScrollView>
   );
@@ -99,18 +150,48 @@ const styles = StyleSheet.create({
   rowBetween: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   gloveTitle: { color: COLORS.text, fontSize: 16, fontWeight: '800' },
   muted: { color: COLORS.muted, fontSize: 13, marginTop: 4, lineHeight: 18 },
-  cardGap: { marginBottom: 12 },
-  cardTitle: { color: '#ffffff', fontSize: 17, fontWeight: '800' },
-  bigText: { fontSize: 20 },
-  cardSub: { color: 'rgba(255,255,255,0.85)', fontSize: 13, marginTop: 4 },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -6 },
+  tileOuter: { width: '50%', padding: 6 },
+  pressed: { opacity: 0.85 },
+  tile: {
+    borderRadius: 22,
+    padding: 14,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: COLORS.cardBorder,
+    shadowColor: '#000',
+    shadowOpacity: 0.35,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 6,
+  },
+  iconBox: {
+    width: 54,
+    height: 54,
+    borderRadius: 16,
+    backgroundColor: 'rgba(255,255,255,0.92)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 10,
+  },
+  iconBoxBig: { width: 64, height: 64, borderRadius: 18 },
+  iconText: { fontSize: 28 },
+  iconTextBig: { fontSize: 34 },
+  tileTitle: { color: '#ffffff', fontSize: 16, fontWeight: '800', lineHeight: 20 },
+  bigText: { fontSize: 19, lineHeight: 23 },
+  tileSub: { color: 'rgba(255,255,255,0.85)', fontSize: 12.5, marginTop: 4, lineHeight: 17 },
   countBadge: {
-    minWidth: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: 'rgba(255,255,255,0.9)',
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    minWidth: 34,
+    height: 34,
+    borderRadius: 17,
+    backgroundColor: 'rgba(255,255,255,0.92)',
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 8,
+    zIndex: 2,
   },
-  countText: { color: '#14532d', fontWeight: '900', fontSize: 16 },
+  countText: { color: '#14532d', fontWeight: '900', fontSize: 15 },
 });
