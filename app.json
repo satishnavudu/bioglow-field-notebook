@@ -1,0 +1,63 @@
+{
+  "expo": {
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#06231a",
+        "foregroundImage": "./assets/adaptive-icon.png"
+      },
+      "package": "com.satishnavudu.bioglowfieldnotebook",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "CAMERA",
+        "READ_MEDIA_IMAGES",
+        "RECORD_AUDIO"
+      ],
+      "versionCode": 1
+    },
+    "extra": {
+      "eas": {}
+    },
+    "icon": "./assets/icon.png",
+    "ios": {
+      "bundleIdentifier": "com.satishnavudu.bioglowfieldnotebook",
+      "infoPlist": {
+        "NSCameraUsageDescription": "BioGlow uses the camera to photograph field findings.",
+        "NSLocationWhenInUseUsageDescription": "BioGlow uses your location to tag where a field finding was made.",
+        "NSMicrophoneUsageDescription": "BioGlow uses the microphone only when you record a voice note.",
+        "NSPhotoLibraryUsageDescription": "BioGlow lets you attach photos of field findings to your notes.",
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "supportsTablet": true,
+      "buildNumber": "1"
+    },
+    "name": "BioGlow Field Notebook",
+    "newArchEnabled": true,
+    "orientation": "portrait",
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "BioGlow uses your location to tag where a field finding was made."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "BioGlow uses the camera to photograph field findings.",
+          "photosPermission": "BioGlow lets you attach photos of field findings to your notes."
+        }
+      ]
+    ],
+    "scheme": "bioglow",
+    "slug": "bioglow-field-notebook",
+    "splash": {
+      "backgroundColor": "#06231a",
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain"
+    },
+    "userInterfaceStyle": "dark",
+    "version": "1.0.0",
+    "privacy": "unlisted"
+  }
+}
