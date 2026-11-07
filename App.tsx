@@ -26,6 +26,7 @@ import { NotebookScreen } from './src/screens/NotebookScreen';
 import { EntryDetailScreen } from './src/screens/EntryDetailScreen';
 import { IdeasScreen } from './src/screens/IdeasScreen';
 import { COLORS } from './src/components/ui';
+import { RainGloveOverlay } from './src/components/RainGloveOverlay';
 
 type Route =
   | { name: 'tabs' }
@@ -46,6 +47,8 @@ export default function App() {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<NotebookKey | 'all'>('all');
   const [loaded, setLoaded] = useState(false);
+  const [showGloveAnim, setShowGloveAnim] = useState(false);
+  const gloveAnimTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -62,6 +65,14 @@ export default function App() {
   const toggleGlove = useCallback((v: boolean) => {
     setGlove(v);
     void saveGloveMode(v);
+    if (gloveAnimTimer.current) clearTimeout(gloveAnimTimer.current);
+    if (v) {
+      // Flashy rain + glove activation animation, then back to the app.
+      setShowGloveAnim(true);
+      gloveAnimTimer.current = setTimeout(() => setShowGloveAnim(false), 2150);
+    } else {
+      setShowGloveAnim(false);
+    }
   }, []);
 
   const addEntry = useCallback((entry: FieldEntry) => {
@@ -164,6 +175,8 @@ export default function App() {
             <IdeasScreen />
           )}
         </View>
+
+        <RainGloveOverlay visible={showGloveAnim} />
 
         {route.name === 'tabs' && (
           <View style={styles.tabBar}>
