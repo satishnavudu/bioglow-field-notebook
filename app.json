@@ -16,8 +16,11 @@
       "versionCode": 1
     },
     "extra": {
-      "eas": {}
+      "eas": {
+        "projectId": "8a4bd76e-dba9-4505-86f5-5e39c589dbf5"
+      }
     },
+    "owner": "mechamasters-team",
     "icon": "./assets/icon.png",
     "ios": {
       "bundleIdentifier": "com.satishnavudu.bioglowfieldnotebook",
