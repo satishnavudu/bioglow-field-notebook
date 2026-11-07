@@ -125,9 +125,9 @@ const styles = StyleSheet.create({
   },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32 },
   gloveRing: {
-    width: 148,
-    height: 148,
-    borderRadius: 74,
+    width: 196,
+    height: 196,
+    borderRadius: 98,
     backgroundColor: 'rgba(163,230,53,0.14)',
     borderWidth: 3,
     borderColor: '#a3e635',
@@ -139,8 +139,8 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0 },
     elevation: 12,
   },
-  gloveEmoji: { fontSize: 62 },
-  cloudEmoji: { fontSize: 30, marginTop: -8 },
+  gloveEmoji: { fontSize: 96 },
+  cloudEmoji: { fontSize: 40, marginTop: -10 },
   title: {
     color: '#f0fdf4',
     fontSize: 27,

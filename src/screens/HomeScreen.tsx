@@ -80,6 +80,9 @@ export function HomeScreen({
 
       <GlossyCard style={styles.gloveCard}>
         <View style={styles.rowBetween}>
+          <View style={styles.gloveIconBox}>
+            <Text style={styles.gloveIconText}>🧤</Text>
+          </View>
           <View style={{ flex: 1, paddingRight: 12 }}>
             <Text style={styles.gloveTitle}>🌧️ Rain / Glove Mode</Text>
             <Text style={styles.muted}>Bigger buttons and text for wet hands and gloves.</Text>
@@ -149,6 +152,18 @@ const styles = StyleSheet.create({
   gloveCard: { marginTop: 16 },
   rowBetween: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   gloveTitle: { color: COLORS.text, fontSize: 16, fontWeight: '800' },
+  gloveIconBox: {
+    width: 72,
+    height: 72,
+    borderRadius: 20,
+    backgroundColor: 'rgba(163,230,53,0.18)',
+    borderWidth: 1,
+    borderColor: 'rgba(163,230,53,0.55)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  },
+  gloveIconText: { fontSize: 40 },
   muted: { color: COLORS.muted, fontSize: 13, marginTop: 4, lineHeight: 18 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -6 },
   tileOuter: { width: '50%', padding: 6 },
